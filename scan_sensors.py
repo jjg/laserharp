@@ -13,12 +13,41 @@ oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 sensors = [
     {
         "note": "c",
-        "GPIO": 36,     # TODO: Replace if needed once the docs load...
+        "GPIO": 36,
     },
+    {
+        "note": "d",
+        "GPIO": 37,
+    },
+    {
+        "note": "e",
+        "GPIO": 38,
+    },
+#    {
+#        "note": "f",
+#        "GPIO": 39,
+#    },
+#    {
+#        "note": "g",
+#        "GPIO": 34,
+#    },
+#    {
+#        "note": "a",
+#        "GPIO": 35,
+#    },
+#    {
+#        "note": "b",
+#        "GPIO": 32,
+#    },
+#    {
+#        "note": "c2",
+#        "GPIO": 33,
+#    },
 ]
 
 
 def scan(self):
+    oled.fill(0)
     # Enumerate sensor pins
     for sensor in sensors:
         # Select sensor 
@@ -31,7 +60,7 @@ def scan(self):
         print("sensor_value: " + str(sensor_value))
         
         if sensor_value:
-            oled.fill(0)
+            print("silence")
             
         else:
             # Print status on oled
@@ -40,7 +69,7 @@ def scan(self):
             
             # TODO: Play the note
             
-        oled.show()
+    oled.show()
 
 tim1 = Timer(0)
 tim1.init(period=100, mode=Timer.PERIODIC, callback=scan)
