@@ -13,7 +13,6 @@ oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 # Init beeper
 beeper = PWM(Pin(14), freq=440, duty=512)
 time.sleep(0.5)
-#beeper.deinit()
 
 sensors = [
     {
@@ -58,16 +57,19 @@ sensors = [
 #    },
 ]
 
-
 def scan(self):
+    # TODO: We can monitor battery level on pin 13, so display that
+    # TODO: Buffer display so we only update it when needed
     oled.fill(0)
+    # TODO: Remember note so we only change beeper frequency (or beeper.deinit()) when needed
     beeper.freq(0)
+    
     # Enumerate sensor pins
     for sensor in sensors:
         # Select sensor 
         print("sensor note: " + sensor['note'])
         print("sensor_pin: " + str(sensor['GPIO']))
-        sensor_pin = Pin(sensor["GPIO"], Pin.IN) # Enable pull-up?  Pin.PULL_UP
+        sensor_pin = Pin(sensor["GPIO"], Pin.IN)
         
         # Read sensor
         sensor_value = sensor_pin.value()
@@ -75,17 +77,18 @@ def scan(self):
         
         if sensor_value:
             print("silence")
-            #beeper.freq(0)
             
         else:
             # Print status on oled
             print("note " + sensor['note'] + " is high")
             oled.text("play " + sensor['note'], 0, 0)
             
-            # TODO: Play the note
+            # Play the note
             beeper.freq(sensor['freq'])
             
     oled.show()
 
+# TODO: Find a way to cancel the timer when the script receives a "break",
+# and consider providing a hardware interface to disable it
 tim1 = Timer(0)
 tim1.init(period=1000, mode=Timer.PERIODIC, callback=scan)
