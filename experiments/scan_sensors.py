@@ -1,7 +1,7 @@
 import time
 import ssd1306
 
-from machine import Pin, I2C, Timer
+from machine import Pin, PWM, I2C, Timer
 
 # Init display
 oled_width = 128
@@ -10,18 +10,26 @@ oled_height = 64
 i2c = I2C(scl=Pin(15), sda=Pin(4), freq=400000)
 oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 
+# Init beeper
+beeper = PWM(Pin(14), freq=440, duty=512)
+time.sleep(0.5)
+#beeper.deinit()
+
 sensors = [
     {
         "note": "c",
         "GPIO": 36,
+        "freq": 262
     },
     {
         "note": "d",
         "GPIO": 37,
+        "freq": 294
     },
     {
         "note": "e",
         "GPIO": 38,
+        "freq": 330
     },
 #    {
 #        "note": "f",
@@ -48,6 +56,7 @@ sensors = [
 
 def scan(self):
     oled.fill(0)
+    beeper.freq(0)
     # Enumerate sensor pins
     for sensor in sensors:
         # Select sensor 
@@ -61,6 +70,7 @@ def scan(self):
         
         if sensor_value:
             print("silence")
+            #beeper.freq(0)
             
         else:
             # Print status on oled
@@ -68,8 +78,9 @@ def scan(self):
             oled.text("play " + sensor['note'], 0, 0)
             
             # TODO: Play the note
+            beeper.freq(sensor['freq'])
             
     oled.show()
 
 tim1 = Timer(0)
-tim1.init(period=100, mode=Timer.PERIODIC, callback=scan)
+tim1.init(period=1000, mode=Timer.PERIODIC, callback=scan)
