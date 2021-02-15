@@ -59,6 +59,7 @@ sensors = [
 
 def scan(self):
     # TODO: We can monitor battery level on pin 13, so display that
+    # (try setting pin mode to "analog" (otherwise only returns 1/0))
     # TODO: Buffer display so we only update it when needed
     oled.fill(0)
     # TODO: Remember note so we only change beeper frequency (or beeper.deinit()) when needed
