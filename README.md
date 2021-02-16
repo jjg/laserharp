@@ -1,5 +1,26 @@
 # laserharp
 
+Play music by plucking strings made from laserbeams!
+
+The instrument is composed of two separate components (laser bar and receiver) which are currently designed to be mounted in a 30" door frame.  A note is played when one of the eight beams is broken.
+
+
+## Repository Structure
++ [docs](./docs/) - Component and other documentation captured from other sources
++ [experiments](./experiments/) - Mostly test code to figure out how to get things working
++ [images](./images/) - Photos and renderings
++ [models](./models/) - 3D model files for printable components
+    + [laser_base.scad](./models/laser_base.scad) - Semi-paramentric laser LED holder with fine aiming adjustment
++ [firmware.py](./firmware.py) - Micropython firmware for the ESP32
+
+
+## Current Status
+
+![photo of tray full of parts](./images/project_tray_fixed.png)
+
+A functional (if not beautiful) prototype of the electronics and firmware has been completed and work is now focused on the physical components.  Once mounts for the lasers and sensors are complete these will be mounted on a full-size test rig to verify operation at full scale and test things like the difficulty of aiming the beams, etc.
+
+
 ## Theory of operation
 
 8 laser beams (notes c to C) are aimed at 8 photoresisors connected on an ESP32.  The ESP32 scans the photoresistors and plays a note if the beam is interrupted.
