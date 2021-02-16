@@ -16,7 +16,7 @@ The instrument is composed of two separate components (laser bar and receiver) w
 
 ## Current Status
 
-![photo of tray full of parts](./images/project_tray_fixed.png)
+![photo of tray full of parts](./images/project_tray_fixed.jpg)
 
 A functional (if not beautiful) prototype of the electronics and firmware has been completed and work is now focused on the physical components.  Once mounts for the lasers and sensors are complete these will be mounted on a full-size test rig to verify operation at full scale and test things like the difficulty of aiming the beams, etc.
 
