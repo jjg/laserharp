@@ -1,10 +1,77 @@
-VERSION = "MARK 3.1";
+VERSION = "MARK 4";
 LASER_DIAMETER = 8; // actual: 6
 LASER_LENGTH = 15; // actual: 14
 BEAM_SPACING = 90;
 SCREW_DIAMETER = 3;
 WALL = 2;
 
+rotate([0,0,0]){
+    
+    difference(){
+
+        // post
+        cylinder(r = (LASER_DIAMETER + WALL) / 2, h=LASER_LENGTH);
+        
+        // feed-through hole
+        translate([0,0,-1]){
+            cylinder(r = (LASER_DIAMETER / 2), h=LASER_LENGTH + 2);
+        }
+        
+        // tension cut-outs
+        translate([-LASER_DIAMETER,-WALL + (WALL / 2), LASER_LENGTH - (WALL * 3)]){
+            cube([LASER_DIAMETER * 2, WALL, WALL * 4]);
+        }
+        rotate([0,0,90]){
+            translate([-LASER_DIAMETER,-WALL + (WALL / 2), LASER_LENGTH - (WALL * 3)]){
+                cube([LASER_DIAMETER * 2, WALL, WALL * 4]);
+            }
+        }
+        
+        // wiring hole
+        translate([0,-WALL,(LASER_LENGTH / 4)]){
+            rotate([90, 0, 0]){
+                cylinder(r=SCREW_DIAMETER / 2, h=WALL * 2);
+            }
+        }
+        
+        // wiring hole
+        rotate([0,0,180]){
+            translate([0,-WALL,(LASER_LENGTH / 4)]){
+                rotate([90, 0, 0]){
+                    cylinder(r=SCREW_DIAMETER / 2, h=WALL * 2);
+                }
+            }
+        } 
+    }
+
+    // top clip edge
+    difference(){
+            
+        // top
+        translate([0,0,LASER_LENGTH]){
+            rotate_extrude(convexity = 10){
+                translate([LASER_DIAMETER / 2, 0, 0]){
+                    circle(r = 1);
+                }
+            }
+        }
+        
+        // tension cut-outs (sloppy, we shouldn't have to repeat this here...
+        translate([-LASER_DIAMETER,-WALL + (WALL / 2), LASER_LENGTH - (WALL * 3)]){
+            cube([LASER_DIAMETER * 2, WALL, WALL * 4]);
+        }
+        rotate([0,0,90]){
+            translate([-LASER_DIAMETER,-WALL + (WALL / 2), LASER_LENGTH - (WALL * 3)]){
+                cube([LASER_DIAMETER * 2, WALL, WALL * 4]);
+            }
+        }
+    }
+}
+
+
+
+
+/*
 $fn = 50;
 
 difference(){
@@ -107,3 +174,4 @@ translate([BEAM_SPACING / 4, LASER_DIAMETER, WALL]){
         }
     }
 }
+*/
